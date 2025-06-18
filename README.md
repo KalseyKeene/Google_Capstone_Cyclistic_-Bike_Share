@@ -49,7 +49,7 @@ As a junior data analyst on the marketing analytics team, I have been assigned t
  How do annual members and casual riders use Cyclistic bikes differently?
 This question is critical in identifying patterns in user behavior and informing strategies to encourage casual riders to become members.
  
-📄 Project Deliverables
+Project Deliverables
 To answer the business question, I will produce a report that includes the following:
 1.	Business Task Statement – Clearly outline the analytical goal
 2.	Data Source Description – Detail all datasets used
@@ -58,7 +58,7 @@ To answer the business question, I will produce a report that includes the follo
 5.	Data Visualizations – Provide charts or graphs to support the findings
 6.	Recommendations – Offer three data-driven suggestions based on the analysis
  
-🗺️ Case Study Roadmap – Ask Phase
+Case Study Roadmap – Ask Phase
 Guiding Questions:
 •	What is the core business problem?
 •	How can data insights support decision-making?
