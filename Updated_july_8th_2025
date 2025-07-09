@@ -1,0 +1,409 @@
+
+arrow_upwardarrow_downwarddelete
+# This R environment comes with many helpful analytics packages installed
+# It is defined by the kaggle/rstats Docker image: https://github.com/kaggle/docker-rstats
+# For example, here's a helpful package to load
+
+library(tidyverse) # metapackage of all tidyverse packages
+
+# Input data files are available in the read-only "../input/" directory
+# For example, running this (by clicking run or pressing Shift+Enter) will list all files under the input directory
+
+list.files(path = "../input")
+
+# You can write up to 20GB to the current directory (/kaggle/working/) that gets preserved as output when you create a version using "Save & Run All" 
+# You can also write temporary files to /kaggle/temp/, but they won't be saved outside of the current session
+'20242025-divvy-bike-sharing-data-cyclistic'
+add Codeadd Markdown
+# 📦 Load packages
+library(tidyverse)
+library(lubridate)
+library(skimr)
+library(janitor)
+library(ggplot2)
+
+# 📁 Define path to input folder
+data_path <- "/kaggle/input/20242025-divvy-bike-sharing-data-cyclistic"
+
+# 📄 List and load all CSV files
+files <- list.files(path = data_path, pattern = "*.csv", full.names = TRUE)
+
+# 🧩 Combine all CSVs into one dataframe
+all_trips <- files %>%
+  map_df(read_csv)
+
+# 🧼 Clean column names
+all_trips <- clean_names(all_trips)
+
+# 🔍 Preview column names
+colnames(all_trips)
+
+Rows: 415025 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 609493 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 710721 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 748962 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 755639 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 821276 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 616281 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 335075 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 178372 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 138689 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 151880 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+Rows: 298155 Columns: 13
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (7): ride_id, rideable_type, start_station_name, start_station_id, end_...
+dbl  (4): start_lat, start_lng, end_lat, end_lng
+dttm (2): started_at, ended_at
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+'ride_id''rideable_type''started_at''ended_at''start_station_name''start_station_id''end_station_name''end_station_id''start_lat''start_lng''end_lat''end_lng''member_casual'
+add Codeadd Markdown
+glimpse(all_trips)
+Rows: 5,779,568
+Columns: 13
+$ ride_id            <chr> "743252713F32516B", "BE90D33D2240C614", "D47BBDDE7C…
+$ rideable_type      <chr> "classic_bike", "electric_bike", "classic_bike", "c…
+$ started_at         <dttm> 2024-04-22 19:08:21, 2024-04-11 06:19:24, 2024-04-…
+$ ended_at           <dttm> 2024-04-22 19:12:56, 2024-04-11 06:22:21, 2024-04-…
+$ start_station_name <chr> "Aberdeen St & Jackson Blvd", "Aberdeen St & Jackso…
+$ start_station_id   <chr> "13157", "13157", "TA1307000107", "13157", "TA13070…
+$ end_station_name   <chr> "Desplaines St & Jackson Blvd", "Desplaines St & Ja…
+$ end_station_id     <chr> "15539", "15539", "13249", "15539", "TA1308000029",…
+$ start_lat          <dbl> 41.87773, 41.87772, 41.96167, 41.87773, 41.96161, 4…
+$ start_lng          <dbl> -87.65479, -87.65496, -87.65464, -87.65479, -87.654…
+$ end_lat            <dbl> 41.87812, 41.87812, 41.95606, 41.87812, 41.88683, 4…
+$ end_lng            <dbl> -87.64395, -87.64395, -87.66884, -87.64395, -87.622…
+$ member_casual      <chr> "member", "member", "member", "member", "member", "…
+add Codeadd Markdown
+# Add ride_length (in minutes) and day_of_week
+all_trips <- all_trips %>%
+  mutate(
+    ride_length = as.numeric(difftime(ended_at, started_at, units = "mins")),
+    day_of_week = wday(started_at, label = TRUE, abbr = FALSE)
+  )
+
+# 🧾 Confirm new columns were added
+glimpse(all_trips)
+
+Rows: 5,779,568
+Columns: 15
+$ ride_id            <chr> "743252713F32516B", "BE90D33D2240C614", "D47BBDDE7C…
+$ rideable_type      <chr> "classic_bike", "electric_bike", "classic_bike", "c…
+$ started_at         <dttm> 2024-04-22 19:08:21, 2024-04-11 06:19:24, 2024-04-…
+$ ended_at           <dttm> 2024-04-22 19:12:56, 2024-04-11 06:22:21, 2024-04-…
+$ start_station_name <chr> "Aberdeen St & Jackson Blvd", "Aberdeen St & Jackso…
+$ start_station_id   <chr> "13157", "13157", "TA1307000107", "13157", "TA13070…
+$ end_station_name   <chr> "Desplaines St & Jackson Blvd", "Desplaines St & Ja…
+$ end_station_id     <chr> "15539", "15539", "13249", "15539", "TA1308000029",…
+$ start_lat          <dbl> 41.87773, 41.87772, 41.96167, 41.87773, 41.96161, 4…
+$ start_lng          <dbl> -87.65479, -87.65496, -87.65464, -87.65479, -87.654…
+$ end_lat            <dbl> 41.87812, 41.87812, 41.95606, 41.87812, 41.88683, 4…
+$ end_lng            <dbl> -87.64395, -87.64395, -87.66884, -87.64395, -87.622…
+$ member_casual      <chr> "member", "member", "member", "member", "member", "…
+$ ride_length        <dbl> 4.583333, 2.950000, 16.300000, 3.766667, 37.366667,…
+$ day_of_week        <ord> Monday, Thursday, Saturday, Thursday, Friday, Wedne…
+add Codeadd Markdown
+Step 1: Explore Summary & Detect Errors Check for any incorrect data entries like negative or zero ride durations.
+
+add Codeadd Markdown
+# Summary of ride_length
+summary(all_trips$ride_length)
+
+# Count of rides with 0 or negative duration
+all_trips %>%
+  filter(ride_length <= 0) %>%
+  count()
+
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+-2748.317     5.508     9.666    17.040    17.167  1559.918 
+A tibble: 1 × 1
+n
+<int>
+492
+add Codeadd Markdown
+Step 2: Clean the Data We'll remove:
+
+Rides with ride_length <= 0 Extremely long rides (over 24 hours = 1440 minutes) Rows with missing values
+
+add Codeadd Markdown
+# Filter out bad data
+all_trips <- all_trips %>%
+  filter(
+    ride_length > 0,
+    ride_length <= 1440
+  ) %>%
+  drop_na()
+
+# Confirm cleaning
+summary(all_trips$ride_length)
+
+# Avoid console overflow
+skim_summary <- skimr::skim_without_charts(all_trips)
+print(skim_summary)
+
+# Or use a simpler overview
+glimpse(all_trips)
+
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+   0.0012    5.8234   10.1281   16.5489   18.2002 1439.8333 
+── Data Summary ────────────────────────
+                           Values   
+Name                       all_trips
+Number of rows             4099879  
+Number of columns          15       
+_______________________             
+Column type frequency:              
+  character                7        
+  factor                   1        
+  numeric                  5        
+  POSIXct                  2        
+________________________            
+Group variables            None     
+
+── Variable type: character ────────────────────────────────────────────────────
+  skim_variable      n_missing complete_rate min max empty n_unique whitespace
+1 ride_id                    0             1  16  16     0  4099758          0
+2 rideable_type              0             1  12  16     0        3          0
+3 start_station_name         0             1  10  64     0     1857          0
+4 start_station_id           0             1   3  14     0     1794          0
+5 end_station_name           0             1  10  64     0     1854          0
+6 end_station_id             0             1   3  35     0     1789          0
+7 member_casual              0             1   6   6     0        2          0
+
+── Variable type: factor ───────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate ordered n_unique
+1 day_of_week           0             1 TRUE           7
+  top_counts                                        
+1 Sat: 643428, Wed: 607319, Fri: 601844, Thu: 575841
+
+── Variable type: numeric ──────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate  mean      sd        p0    p25   p50
+1 start_lat             0             1  41.9  0.0431  41.6      41.9   41.9
+2 start_lng             0             1 -87.6  0.0259 -87.9     -87.7  -87.6
+3 end_lat               0             1  41.9  0.0432  41.6      41.9   41.9
+4 end_lng               0             1 -87.6  0.0260 -87.8     -87.7  -87.6
+5 ride_length           0             1  16.5 33.7      0.00117   5.82  10.1
+    p75   p100
+1  41.9   42.1
+2 -87.6  -87.5
+3  41.9   42.1
+4 -87.6  -87.5
+5  18.2 1440. 
+
+── Variable type: POSIXct ──────────────────────────────────────────────────────
+  skim_variable n_missing complete_rate min                 max                
+1 started_at            0             1 2024-04-01 00:00:42 2025-03-31 23:50:16
+2 ended_at              0             1 2024-04-01 00:07:30 2025-03-31 23:59:21
+  median              n_unique
+1 2024-08-16 11:52:38  4012550
+2 2024-08-16 12:12:03  4013828
+Rows: 4,099,879
+Columns: 15
+$ ride_id            <chr> "743252713F32516B", "BE90D33D2240C614", "D47BBDDE7C…
+$ rideable_type      <chr> "classic_bike", "electric_bike", "classic_bike", "c…
+$ started_at         <dttm> 2024-04-22 19:08:21, 2024-04-11 06:19:24, 2024-04-…
+$ ended_at           <dttm> 2024-04-22 19:12:56, 2024-04-11 06:22:21, 2024-04-…
+$ start_station_name <chr> "Aberdeen St & Jackson Blvd", "Aberdeen St & Jackso…
+$ start_station_id   <chr> "13157", "13157", "TA1307000107", "13157", "TA13070…
+$ end_station_name   <chr> "Desplaines St & Jackson Blvd", "Desplaines St & Ja…
+$ end_station_id     <chr> "15539", "15539", "13249", "15539", "TA1308000029",…
+$ start_lat          <dbl> 41.87773, 41.87772, 41.96167, 41.87773, 41.96161, 4…
+$ start_lng          <dbl> -87.65479, -87.65496, -87.65464, -87.65479, -87.654…
+$ end_lat            <dbl> 41.87812, 41.87812, 41.95606, 41.87812, 41.88683, 4…
+$ end_lng            <dbl> -87.64395, -87.64395, -87.66884, -87.64395, -87.622…
+$ member_casual      <chr> "member", "member", "member", "member", "member", "…
+$ ride_length        <dbl> 4.583333, 2.950000, 16.300000, 3.766667, 37.366667,…
+$ day_of_week        <ord> Monday, Thursday, Saturday, Thursday, Friday, Wedne…
+add Codeadd Markdown
+Compare Members vs Casual Users Look at the average ride length by user type
+
+add Codeadd Markdown
+# Average ride length by user type
+all_trips %>%
+  group_by(member_casual) %>%
+  summarize(avg_ride_length = mean(ride_length), .groups = "drop") %>%
+  arrange(desc(avg_ride_length))
+A tibble: 2 × 2
+member_casual	avg_ride_length
+<chr>	<dbl>
+casual	23.81423
+member	12.35199
+add Codeadd Markdown
+Ride Length by Day of Week and User Type Visualize how ride behavior changes across weekdays.
+
+add Codeadd Markdown
+# Average ride length by day of week and user type
+library(ggplot2)
+
+all_trips %>%
+  group_by(member_casual, day_of_week) %>%
+  summarize(avg_ride_length = mean(ride_length), .groups = "drop") %>%
+  ggplot(aes(x = day_of_week, y = avg_ride_length, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Average Ride Length by Day of Week and User Type",
+    x = "Day of Week",
+    y = "Average Ride Length (minutes)",
+    fill = "User Type"
+  ) +
+  theme_minimal()
+
+
+add Codeadd Markdown
+Ride Counts
+
+add Codeadd Markdown
+all_trips %>%
+  group_by(member_casual, day_of_week) %>%
+  summarize(number_of_rides = n(), .groups = "drop") %>%
+  ggplot(aes(x = day_of_week, y = number_of_rides, fill = member_casual)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Number of Rides by Day of Week and User Type",
+    x = "Day of Week",
+    y = "Number of Rides",
+    fill = "User Type"
+  ) +
+  theme_minimal()
+
+
+add Codeadd Markdown
+Distribution of ride length
+
+add Codeadd Markdown
+all_trips %>%
+  ggplot(aes(x = ride_length, fill = member_casual)) +
+  geom_histogram(bins = 100, position = "identity", alpha = 0.5) +
+  xlim(0, 60) +
+  labs(
+    title = "Distribution of Ride Length (0–60 min)",
+    x = "Ride Length (minutes)",
+    y = "Count"
+  ) +
+  theme_minimal()
+
+Warning message:
+“Removed 123348 rows containing non-finite outside the scale range
+(`stat_bin()`).”
+Warning message:
+“Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`).”
+
+add Codeadd Markdown
+all_trips %>%
+  ggplot(aes(x = ride_length, fill = member_casual)) +
+  geom_histogram(bins = 100, position = "identity", alpha = 0.5) +
+  xlim(0, 60) +
+  scale_fill_manual(values = c("casual" = "#FF9999", "member" = "#3399FF")) +
+  labs(
+    title = "Distribution of Ride Length (0–60 min)",
+    x = "Ride Length (minutes)",
+    y = "Number of Rides",
+    fill = "User Type"
+  ) +
+  theme_minimal()
+
+Warning message:
+“Removed 123348 rows containing non-finite outside the scale range
+(`stat_bin()`).”
+Warning message:
+“Removed 4 rows containing missing values or values outside the scale range
+(`geom_bar()`).”
+
+add Codeadd Markdown
+Save the Cleaned Data (Optional) You can export your cleaned dataset to a CSV file:
+
+add Codeadd Markdown
+write_csv(all_trips, "cleaned_cyclistic_data.csv")
+
+add Codeadd Markdown
