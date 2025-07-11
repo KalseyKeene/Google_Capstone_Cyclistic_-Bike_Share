@@ -67,3 +67,6 @@ Key Tasks:
 •	Identify key stakeholders involved (e.g., marketing team, executive team)
 Deliverable:
 •	A clear and actionable statement of the business task
+
+Please visit: https://www.kaggle.com/code/kalsey/capston-project 
+](https://www.kaggle.com/code/kalsey/capstone-project)](https://www.kaggle.com/code/kalsey/capstone-project)
